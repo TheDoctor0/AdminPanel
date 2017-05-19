@@ -1,0 +1,20 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Lista Grup</h1>
+	</div>
+    <div class="jumbotron">
+		<br>
+		<div class="list-group">
+			{% for id, group in groups %} 
+			<a class="list-group-item" href="javascript:void(0)" onclick='loadpage("{{ path('groupsedit', {id:group.id}) }}");'><span class="badge"><span class="glyphicon glyphicon-wrench"></span></span><span class="badge">{{ id + 1 }}</span>{{ group.name }}</a>
+			{% endfor %}
+		</div>
+		<button class="btn btn-success btn-block" onclick='loadpage("{{ path('groupadd') }}");'><span class="glyphicon glyphicon-plus-sign"></span> Dodaj Grupę</button><br/>
+		<button class="btn btn-primary btn-block" onclick='loadpage("{{ path('admin') }}");'><span class="glyphicon glyphicon-arrow-left"></span> Wróć do Panelu Administracyjnego</button>
+    </div>
+{% endblock %}

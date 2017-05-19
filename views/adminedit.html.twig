@@ -1,0 +1,125 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+<script src="{{ asset('js/save.js') }}" async></script>
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Edycja Admina</h1>
+	</div>
+    <div class="jumbotron">
+		<form id="form" role="form" class="form-horizontal" action="{{ path('adminssave') }}" method="post">
+			<input type="name" style="display:none" readonly class="form-control" name="id" required value="{{ admin.id }}" data-default="{{ admin.id }}">
+			<input type="name" style="display:none" readonly class="form-control" name="old_name" required value="{{ admin.name }}" data-default="{{ admin.name }}">
+			<input type="name" style="display:none" readonly class="form-control" name="old_steamid" required value="{{ admin.steamid }}" data-default="{{ admin.steamid }}">
+			<input type="name" style="display:none" readonly class="form-control" name="old_contact" required value="{{ admin.contact }}" data-default="{{ admin.contact }}">
+			<input type="name" style="display:none" readonly class="form-control" name="old_server" required value="{{ admin.server }}" data-default="{{ admin.server }}">
+			<input type="name" style="display:none" readonly class="form-control" name="service" required value="{{ admin.service }}" data-default="{{ admin.service }}">
+			<input type="name" style="display:none" readonly class="form-control" name="service_type" required value="{{ admin.service_type }}" data-default="{{ admin.service_type }}">
+			<div class="form-group">
+				<label class="margin control-label col-sm-3" style="text-align: left;" for="name"><h4><b>Nick:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="name" required value="{{ admin.name }}" data-default="{{ admin.name }}">
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-3" style="text-align: left;" for="steamid"><h4><b>SteamID:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="steamid" required value="{{ admin.steamid }}" data-default="{{ admin.steamid }}">
+				</div>
+			</div>
+			<div class="form-group" {% if admin.password == '' %} style="display: none" {% endif %}><br>
+				<label class="margin control-label col-sm-3" style="text-align: left;" for="password"><h4><b>Hasło:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="password" class="form-control" name="password" {% if admin.password != '' %} data-default="{{ admin.password }}" required value="{{ admin.password }}" {% else %} data-default="" value="" readonly{% endif %} placeholder="Wpisz nowe hasło">
+				</div>
+			</div>
+			{% if admin.password == '' %}<br>{% endif %}
+			<div class="form-group">
+				<label class="margin control-label col-sm-3" style="text-align: left;" for="contact"><h4><b>Kontakt:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="contact" value="{{ admin.contact }}" data-default="{{ admin.contact }}">
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-3" style="text-align: left;" for="server"><h4><b>Serwer:</b></h4></label>
+				<div class="col-sm-5">
+					<select class="form-control server" data-default="{{ admin.server }}" name="server" required>
+						{% for server in servers %}
+						<option value="{{ server.id }}" {% if admin.server == server.id %} selected {% endif %}>{{ server.name }}</option>
+						{% endfor %}
+						<option value="0" {% if admin.server == '0' %} selected {% endif %}>Wszystkie</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-3" style="text-align: left;" for="type"><h4><b>Typ:</b></h4></label>
+				<div class="col-sm-5">
+					<select class="form-control" data-default="{{ admin.type }}" name="type" required>
+						<option value="0" {% if admin.type == '0' %} selected {% endif %}>Testowy</option>
+						<option value="1" {% if admin.type == '1' %} selected {% endif %}>Stały</option>
+						<option value="2" {% if admin.type == '2' %} selected {% endif %}>Administracja</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-3" style="text-align: left;" for="date"><h4><b>Wygasa:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="date" required readonly {% if admin.date == '0' %}data-default="Nigdy" value="Nigdy"{% else %}data-default="{{ admin.date|date("d/m/Y H:i:s") }}" value="{{ admin.date|date("d/m/Y H:i:s") }}"{% endif %}">
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-3" style="text-align: left;" for="active"><h4><b>Aktywny:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="active" required readonly {% if admin.active == '1' %}data-default="Tak" value="Tak"{% else %}data-default="Nie" value="Nie"{% endif %}">
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-success btn-block" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Zapisz Admina</button><br/>
+			<div {% if admin.service == 0 %} style="display: none" {% endif %}><button class="btn btn-warning btn-block" type="button" data-toggle="modal" data-target="#extend"><span class="glyphicon glyphicon-plus-sign"></span> Przedłuż Admina</button><br/></div>
+			<button class="btn btn-danger btn-block" type="button" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-minus-sign"></span> Usuń Admina</button><br/>
+			<button class="btn btn-primary btn-block" type="button" onclick='loadpage("{{ path('admins') }}");'><span class="glyphicon glyphicon-arrow-left"></span> Wróć do Listy Adminów</button>
+        </form>
+        <div id="result"></div>
+		<div class="modal fade" id="extend" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Przedłużenie Admina</h4>
+					</div>
+					<div class="modal-body">
+						<p>Czy na pewno chcesz przedłużyć usługę admina o 30 dni?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="extend_admin">Tak</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Nie</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="delete" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Usunięcie Admina</h4>
+					</div>
+					<div class="modal-body">
+						<p>Czy na pewno chcesz usunąć admina?</p>
+						<p>Jeśli admin ma już aktywną usługę w Sklepie SMS zostanie ona także usunięta.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="delete_admin">Tak</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Nie</button>
+					</div>
+				</div>
+			</div>
+		</div>
+{% endblock %}

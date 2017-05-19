@@ -1,0 +1,21 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+<script src="{{ asset('js/admin.js') }}" async></script>
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Panel Administracyjny <span class="label label-default">{{ app.session.get('username') }}</span></h1>
+	</div>
+    <div class="jumbotron">
+        <div class="list-group">
+            <a class="list-group-item" onclick='loadpage("{{ path('user') }}")'><span class="badge">1</span>Profil Użytkownika</a>
+			<a class="list-group-item" onclick='loadpage("{{ path('admins') }}", "{{ path('admins') }}");'><span class="badge">2</span>Zarządzaj Adminami</a>
+            <a class="list-group-item" onclick='loadpage("{{ path('users') }}")'><span class="badge">3</span>Zarządzaj Użytkownikami</a>
+            <a class="list-group-item" onclick='loadpage("{{ path('groups') }}")'><span class="badge">4</span>Zarządzaj Grupami</a>
+			<a class="list-group-item" onclick='loadpage("{{ path('motdedit') }}")'><span class="badge">4</span>Edytuj MOTD</a>
+        </div>
+        <button class="btn btn-danger btn-block" onclick='logout();loadpage("{{ path('logout') }}", "{{ path('index') }}");'><span class="glyphicon glyphicon-off"></span> Wyloguj Się</button>
+    </div>
+{% endblock %}

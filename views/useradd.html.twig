@@ -1,0 +1,74 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+<script src="{{ asset('js/add.js') }}" async></script>
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Dodanie Użytkownika</h1>
+	</div>
+    <div class="jumbotron">
+		<form id="form" role="form" class="form-horizontal" action="{{ path('useradded') }}" method="post">
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="login"><h4><b>Login:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="login" value="" placeholder="Wpisz login użytkownika" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="password"><h4><b>Hasło:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="password" class="form-control" name="password" value="" placeholder="Wpisz hasło użytkownika (Opcjonalnie)">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="image"><h4><b>Email:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="email" class="form-control" name="email" value="" placeholder="Wpisz email użytkownika" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="avatar"><h4><b>Avatar:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="avatar" value="" placeholder="Wpisz link do avatara użytkownika" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="group"><h4><b>Grupa:</b></h4></label>
+				<div class="col-sm-5">
+					<select class="form-control" name="group" required>
+						{% for id, group in groups %}
+						<option value="{{ group.id }}" {% if id + 1 == '1' %} selected {% endif %}>{{ group.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="responsibilities"><h4><b>Obowiązki:</b></h4></label>
+				<div class="col-sm-5">
+					<textarea rows="6" class="form-control" name="responsibilities" placeholder="Wpisz obowiązki użytkownika"></textarea>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="permissions"><h4><b>Uprawnienia:</b></h4></label>
+				<div class="col-sm-5">
+					<select class="form-control" name="permissions" required>
+						<option value="0" selected>Użytkownik</option>
+						<option value="1">Administrator</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-success btn-block" type="submit"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj Użytkownika</button><br/>
+			<button class="btn btn-primary btn-block" type="button" onclick='loadpage("{{ path('users') }}");'><span class="glyphicon glyphicon-arrow-left"></span> Wróć do Listy Użytkowników</button>
+        </form>
+        <div id="result"></div>
+    </div>
+{% endblock %}

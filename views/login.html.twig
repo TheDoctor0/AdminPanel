@@ -1,0 +1,26 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Logowanie</h1>
+	</div>
+    <div class="container">
+	<div class="wrapper">
+            <form id="login_form" class="form-signin" role="form" action="{{ path('logged') }}" method="post">       
+                <h3 class="form-signin-heading">Witaj ponownie!</h3>
+                <hr class="colorgraph"><br>
+			  
+                <input type="text" class="form-control" id="login" name="login" placeholder="Login" required autofocus="" /><br/>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Hasło" required />     		  
+
+                <button class="btn btn-lg btn-primary btn-block" id="login_button" type="button" value="Zaloguj się">Zaloguj się</button> 
+				<h5 class="center">Nie masz konta? <a href="javascript:void(0)" onclick='loadpage("{{ path('register') }}", "{{ path('register') }}");'><b>Zarejestruj się!</b></a></h5>
+                <div id="result"></div>
+            </form>			
+	</div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script src="{{ asset('js/login.js') }}"></script>
+{% endblock %}

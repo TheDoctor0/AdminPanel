@@ -1,0 +1,73 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+<script src="{{ asset('js/save.js') }}" async></script>
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Edycja Użytkownika</h1>
+	</div>
+    <div class="jumbotron form-horizontal">
+		<form id="form" role="form" class="form-horizontal" action="{{ path('userssave') }}" method="post">
+			<input type="name" style="display:none" readonly class="form-control" name="id" required value="{{ user.id }}" data-default="{{ user.id }}">
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="login"><h4><b>Login:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="login" required value="{{ user.login }}" data-default="{{ user.login }}">
+				</div>
+			</div>
+			<div class="form-group" {% if user.password == '' %} style="display: none" {% endif %}><br>
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="password"><h4><b>Hasło:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="password" class="form-control" id="password" name="password" {% if user.password != '' %} data-default="{{ user.password }}" required value="{{ user.password }}" {% else %} data-default="" value="" readonly{% endif %} placeholder="Wpisz nowe hasło">
+				</div>
+			</div>
+			<div class="form-group"><br>
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="email"><h4><b>Email:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="email" required data-default="{{ user.email }}" value="{{ user.email }}" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="avatar"><h4><b>Avatar:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="avatar" value="{{ user.avatar }}" data-default="{{ user.avatar }}">
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="group"><h4><b>Grupa:</b></h4></label>
+				<div class="col-sm-5">
+					<select class="form-control" {% if user.permissions is defined %} data-default="{{ user.group }}" name="group" required{% endif %}>
+						{% for group in groups %}
+						<option value="{{ group.id }}" {% if user.permissions is defined %} {% if user.group == group.id %} selected {% endif %}{% endif %}>{{ group.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="permissions"><h4><b>Uprawnienia:</b></h4></label>
+					<div class="col-sm-5">
+						<select class="form-control" {% if user.permissions is defined %} data-default="{{ user.permissions }}" name="permissions" {% if user.id == '1' %}disabled{% endif %}{% endif %} required>
+							<option value="0" {% if user.permissions is defined %} {% if user.permissions == '0' %} selected {% endif %}{% endif %}>Użytkownik</option>
+							<option value="1" {% if user.permissions is defined %} {% if user.permissions == '1' %} selected {% endif %}{% endif %}>Administrator</option>
+						</select>
+					</div>
+				</div>
+			<br>
+			<div class="form-group" {% if user.group == '0' %} style="display:none" {% endif %}>
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="responsibilities"><h4><b>Obowiązki:</b></h4></label>
+				<div class="col-sm-5">
+					<textarea rows="6" class="form-control" name="responsibilities" data-default="{% if responsibilities.responsibilities is defined %}{{ responsibilities.responsibilities }}{% endif %}">{% if responsibilities.responsibilities is defined %}{{ responsibilities.responsibilities }}{% endif %}</textarea>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-warning btn-block" type="submit"><span class="glyphicon glyphicon-save"></span> Zapisz Użytkownika</button><br/>
+			<button class="btn btn-primary btn-block" type="button" onclick='loadpage("{{ path('users') }}");'><span class="glyphicon glyphicon-arrow-left"></span> Wróć do Listy Użytkowników</button>
+        </form>
+        <div id="result"></div>
+    </div>
+{% endblock %}

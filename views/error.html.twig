@@ -1,0 +1,8 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+{% endblock %}
+
+{% block body %}
+    <div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Błąd:</strong> {{ error }}</div>
+{% endblock %}

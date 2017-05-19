@@ -1,0 +1,66 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block body %}
+	<div class="page-header">
+		<h1 class="first">Gracze {{ server }} (<font color="{% if info.status == 'Online' %}green{%else%}red{%endif%}">{{info.status}}</font>)</h1>
+	</div>
+    <div class="jumbotron">
+		{% if info.status == 'Online' %}
+		<table width="100%">
+			<tr><td height="75" width="40%" align="center" valign="top"><h2>Mapa: <b>{{ info.map }}<b></h2></td>
+			<td width="30%" align="center" valign="top"><h2>Gracze: <b>{{ info.players }}/{{ info.maxplayers }}</b></h2></td>
+			<td width="30%" align="center" valign="top"><h2>Połącz: <b><a href="steam://connect/{{ ip }}/">Kliknij</a></b></h2></td></tr>
+			<tr><td colspan="3"><div class="progress">
+				<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{ info.percent }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ info.percent }}%">{{ info.percent }}%</div>
+			</div></td></tr>
+		</table>
+		<br>
+		<table class="table">
+            <thead><tr><th style="width:10%">Pozycja</th><th style="width:25%">Nick</th><th style="width:25%">Zabójstwa</th><th style="width:20%">Czas Gry</th></tr></thead>
+            <tbody>
+            {% for id, player in players %} 
+                <tr style="height: 42px;">
+					<td style="vertical-align: middle;"><span class="badge" style="display: inline">{{ ranks[id] }}</span></td>
+					<td>{{ player.name }}</td>
+					<td>{{ player.score }}</td>
+					<td>{% if time.hours[id] is defined %}{{ time.hours[id] }}:{% endif %}{% if time.minutes[id] is defined %}{{ time.minutes[id] }}:{% else %}00:{% endif %}{% if time.seconds[id] < 10 %}0{% endif %}{{ time.seconds[id] }}</td>
+				</tr>
+            {% endfor %}
+             </tbody>
+        </table>
+		{%endif%}
+    </div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+var refresh;
+
+$(document).ready(function(){
+	if($('.first').text().indexOf("Gracze {{ server }}") != -1)
+	{
+		refresh = setTimeout(function(){ refresh_chat(); }, 10000);
+		$('.servers').parent().addClass("active");
+	}
+});
+
+function refresh_chat(){
+	if($('.first').text().indexOf("Gracze {{ server }}") != -1)
+	{
+		$.ajax({
+			url: '{{ path('servers', {name:server,ip:ip}) }}',
+			cache: false,
+			async: true,
+			success: function (response) {
+				if($('.first').text().indexOf("Gracze {{ server }}") != -1)
+				{
+					$('.container').html(response);
+				}
+			}
+		});
+		
+		clearTimeout(refresh);
+	};
+};
+</script>
+{% endblock %}

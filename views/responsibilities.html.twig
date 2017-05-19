@@ -1,0 +1,29 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Obowiązki</h1>
+	</div>
+    <div class="jumbotron">
+		<div class="row">
+			<div class="col-md-3">
+				<br>
+				<div class="list-group">
+				{% for id, user in users %} 
+					<a {% if id == '0' %}id="first"{% endif %} 
+					class="list-group-item {% if id == '0' %}active{% endif %}" href="javascript:void(0)" 
+					onclick='loaduser("{{ path('userresponsibilities', {id:user.id}) }}");'>
+					{{ user.prefix|raw }}{{ user.login }}{{ user.suffix|raw }}</a>
+				{% endfor %}
+				</div>
+			</div>
+			<div class="col-md-9">
+			</div>
+		</div>
+    </div>
+	<script>$("#first").trigger("click");</script>
+{% endblock %}
+
+{% block js %}
+<script src="{{ asset('js/responsibilities.js') }}"></script>
+{% endblock %}

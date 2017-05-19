@@ -1,0 +1,32 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+{% endblock %}
+
+{% block menu %}
+	<li class="dropdown">
+	<a href="javascript:void(0)" class="chat dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-pencil"></span> Czat Serwerów</a>
+		<ul class="dropdown-menu">
+			{% for server in servers %} 
+			{% if 'CSGO' not in server.name %}<li><a href="javascript:void(0)" onclick='loadpage("{{ path('chat', {id:server.name}) }}");'><span class="glyphicon glyphicon-star"></span> {{server.name}}</a></li>{% endif %}
+			{% endfor %}
+		</ul>
+	</li>
+	<li class="dropdown">
+	<a href="javascript:void(0)" class="servers dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-signal"></span> Gracze Online</a>
+		<ul class="dropdown-menu">
+			{% for server in servers2 %} 
+			<li><a href="javascript:void(0)" onclick='loadpage("{{ path('servers', {name:server.name,ip:server.ip}) }}");'><span class="glyphicon glyphicon-star"></span> {{server.name}}</a></li>
+			{% endfor %}
+		</ul>
+	</li>
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Strona Główna</h1>
+	</div>
+    <div class="jumbotron">
+        <h2 class="center">Witaj w Panelu Adminów!</h2><br/><h2>Znajdziesz tutaj:</h2><h3>1. Obowiązki każdego członka naszej ekipy.<br/>2. Pełną listę adminów wraz z kontaktem do każdego z nich.<br/>3. Aktualny stan każdego serwera wraz z listą graczy i ich statusem w grze.<br/>4. Live-chat z każdego serwera.</h3>
+    </div>
+{% endblock %}

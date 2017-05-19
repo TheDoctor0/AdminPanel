@@ -1,0 +1,27 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Lista Adminów</h1>
+	</div>
+    <div class="jumbotron">
+		<br>
+		<table class="table">
+            <thead><tr><th style="width:10%">ID</th><th style="width:25%">Nick</th><th style="width:25%">Kontakt</th><th style="width:20%">Serwer</th><th style="width:15%">Typ</th></tr></thead>
+            <tbody>
+            {% for id, admin in admins %} 
+                <tr style="height: 42px;">
+					<td style="vertical-align: middle;"><span class="badge" style="display: inline">{{ id + 1 }}</span></td>
+					<td>{{ admin.name }}</td>
+					<td>{% if 'steamcommunity.com' in admin.contact %}<a href="{{ admin.contact }}">Steam</a>{% elseif 'cs-reload.pl' in admin.contact %}<a href="{{ admin.contact }}">Forum</a>{% elseif admin.contact starts with 'gg:' %}<a href="{{ admin.contact }}">GG</a>{% elseif admin.contact starts with 'skype:' %}<a href="{{ admin.contact }}?chat">Skype</a>{% elseif admin.contact == '' %}Brak{% else %}{{admin.contact}}{%endif%}</td>
+					<td>{% if admin.server == '' %}Wszystkie{% else %}{{ admin.server }}{% endif %}</td>
+					<td>{% if admin.type == '2' %}Administracja{% elseif admin.type == '1' %}Stały{% else %}Testowy{% endif %}</td>
+				</tr>
+            {% endfor %}
+             </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Czat Serwera {{ server }}</h1>
+	</div>
+    <div class="jumbotron">
+		<div class="row">
+			<div class="col-md-12">
+				<br>
+				<div class="list-group">
+				{% for id, msg in chat %} 
+					<span class="list-group-item">
+					<h4 style="color:black">({{ msg.data|date('H:i:s') }})
+					{% if msg.type == '0' %}({% if msg.team == '1' %}Terrorist{% elseif msg.team == '2' %}Counter-Terrorist{% else %}Spectator{% endif %}) {% elseif msg.type == '2' %}(ADMIN_CHAT) {% elseif msg.type == '3' %}(HUD) {% endif %}
+					{% if msg.ranga == '2' %}<font color="green">[ADMIN]</font>{% elseif msg.ranga == '1' %}<font color="green">[VIP]</font>{% endif%}
+					<font color="{% if msg.team == '1' %}red{% elseif msg.team == '2' %}blue{% else %}grey{% endif %}"> {{ msg.nick|replace({'Ä…': "ą", 'Ä™': "ę", 'Å¼': "ż", 'Åº': "ź", 'Ä‡': "ć", 'Ã³': "ó", 'Å‚': "ł", 'Å„': "ń", 'Å›': "ś"}) }}</font>: 
+					{{ msg.msg|replace({'@': "", 'Ä…': "ą", 'Ä™': "ę", 'Å¼': "ż", 'Åº': "ź", 'Ä‡': "ć", 'Ã³': "ó", 'Å‚': "ł", 'Å„': "ń", 'Å›': "ś"}) }}</h4></span>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+var refresh;
+
+$(document).ready(function(){
+	if($('h1').text() == "Czat Serwera {{ server }}")
+	{
+		refresh = setTimeout(function(){ refresh_chat(); }, 5000);
+		$('.chat').parent().addClass("active");
+	}
+});
+
+function refresh_chat(){
+	if($('h1').text() == "Czat Serwera {{ server }}")
+	{
+		$.ajax({
+			url: '{{ path('chat', {id:server}) }}',
+			cache: false,
+			async: true,
+			success: function (response) {
+				if($('h1').text() == "Czat Serwera {{ server }}")
+				{
+					$('.container').html(response);
+				}
+			}
+		});
+		
+		clearTimeout(refresh);
+	};
+};
+</script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+<script src="{{ asset('js/add.js') }}" async></script>
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Dodanie Grupy</h1>
+	</div>
+    <div class="jumbotron">
+		<form id="form" role="form" class="form-horizontal" action="{{ path('groupadded') }}" method="post">
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="name"><h4><b>Nazwa:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="name" value="" placeholder="Wpisz nazwę grupy" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="image"><h4><b>Obrazek:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="image" value="" placeholder="Wpisz link do obrazka grupy" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="prefix"><h4><b>Prefix:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="prefix" value="" placeholder="Wpisz prefix grupy" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="name"><h4><b>Suffix:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="suffix" value="" placeholder="Wpisz suffix grupy" required>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-success btn-block" type="submit"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj Grupę</button><br/>
+			<button class="btn btn-primary btn-block" type="button" onclick='loadpage("{{ path('groups') }}");'><span class="glyphicon glyphicon-arrow-left"></span> Wróć do Listy Grup</button>
+        </form>
+        <div id="result"></div>
+    </div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+<script src="{{ asset('js/add.js') }}" async></script>
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Dodanie Admina</h1>
+	</div>
+    <div class="jumbotron">
+		<form id="form" role="form" class="form-horizontal" action="{{ path('adminsadded') }}" method="post">
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="name"><h4><b>Nick:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="name" value="" placeholder="Wpisz nick admina" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="steamid"><h4><b>SteamID:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="steamid" value="" placeholder="Wpisz SteamID admina">
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="password"><h4><b>Hasło<font color="red">*</font>:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="password" value="" placeholder="Wpisz hasło admina">
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="contact"><h4><b>Kontakt:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="contact" value="" placeholder="Wpisz kontakt do admina">
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="server"><h4><b>Serwer:</b></h4></label>
+				<div class="col-sm-5">
+					<select class="form-control" name="server" required>
+						{% for server in servers %}
+						<option value="{{ server.id }}">{{ server.name }}</option>
+						{% endfor %}
+						<option value="0">Wszystkie</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="type"><h4><b>Typ:</b></h4></label>
+				<div class="col-sm-5">
+					<select class="form-control" name="type" required>
+						<option value="0" selected>Testowy</option>
+						<option value="1">Stały</option>
+						<option value="2">Administracja</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="service"><h4><b>Dodaj Usługę:</b></h4></label>
+				<div class="col-sm-5">
+					<select class="form-control" name="service" required>
+						<option value="0" selected>Nie</option>
+						<option value="1">Na Nick (tylko dla serwerów CS 1.6)</option>
+						<option value="2">Na SteamID</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<h4><font color="red">* Tylko jeśli dodajesz także usługę dla admina na serwerze CS 1.6.</font></h4>
+			<br>
+			<button class="btn btn-success btn-block" type="submit"><span class="glyphicon glyphicon-plus-sign"></span> Dodaj Admina</button><br/>
+			<button class="btn btn-primary btn-block" type="button" onclick='loadpage("{{ path('admins') }}");'><span class="glyphicon glyphicon-arrow-left"></span> Wróć do Listy Adminow</button>
+        </form>
+        <div id="result"></div>
+    </div>
+{% endblock %}

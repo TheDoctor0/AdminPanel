@@ -1,0 +1,66 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+<script src="{{ asset('js/save.js') }}" async></script>
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Edycja Grupy</h1>
+	</div>
+    <div class="jumbotron">
+		<form id="form" role="form" class="form-horizontal" action="{{ path('groupssave') }}" method="post">
+			<br>
+			<input type="name" class="form-control" style="display:none" name="id" data-default="{{ group.id }}" value="{{ group.id }}" required>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="name"><h4><b>Nazwa:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="name" class="form-control" name="name" data-default="{{ group.name }}" value="{{ group.name }}" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="image"><h4><b>Obrazek:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="image" data-default="{{ group.image }}" value="{{ group.image }}" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="prefix"><h4><b>Prefix:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="prefix" data-default="{{ group.prefix }}" value="{{ group.prefix }}" required>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="suffix"><h4><b>Suffix:</b></h4></label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="suffix" data-default="{{ group.suffix }}" value="{{ group.suffix }}" required>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-warning btn-block" type="submit"><span class="glyphicon glyphicon-save"></span> Zapisz Grupę</button><br/>
+			<button class="btn btn-danger btn-block" type="button" data-toggle="modal" data-target="#confirm"><span class="glyphicon glyphicon-minus-sign"></span> Usuń Grupę</button><br/>
+			<button class="btn btn-primary btn-block" type="button" onclick='loadpage("{{ path('groups') }}");'><span class="glyphicon glyphicon-arrow-left"></span> Wróć do Listy Grup</button>
+        </form>
+        <div id="result"></div>
+		<div class="modal fade" id="confirm" role="dialog">
+			<div class="modal-dialog">
+    
+				<div class="modal-content">
+					<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Usunięcie Grupy</h4>
+				</div>
+				<div class="modal-body">
+					<p>Czy na pewno chcesz usunąć grupę?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="delete_group">Tak</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Nie</button>
+				</div>
+			</div>
+		</div>
+    </div>
+{% endblock %}

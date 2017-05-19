@@ -1,0 +1,16 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>Strona Główna</h1>
+	</div>
+    <div class="jumbotron">
+        <h2 class="center">Witaj w Panelu Adminów!</h2><br/><h2>Znajdziesz tutaj:</h2><h3>1. Obowiązki każdego członka naszej ekipy.<br/>2. Pełną listę adminów wraz z kontaktem do każdego z nich.<br/>3. Aktualny stan każdego serwera wraz z listą graczy i ich statusem w grze.<br/>4. Live-chat z każdego serwera.</h3>
+    </div>
+{% endblock %}

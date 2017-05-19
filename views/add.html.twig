@@ -1,0 +1,37 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+<script src="{{ asset('js/add.js') }}" async></script>
+{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+		<form id="form" role="form" class="form-horizontal" action="{{ path('addstudent') }}" method="post">
+                <h2>Wpisz dane studenta!</h2>
+                <br>
+                <div class="form-group">
+                    <label class="margin control-label col-sm-1" style="text-align: left;" for="firstname"><h4>Imię:</h4></label>
+                    <div class="col-sm-4">
+                        <input type="name" class="form-control" id="firstname" name="data[firstname]" placeholder="Wpisz imię studenta" required>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label class="margin control-label col-sm-1" style="text-align: left;" for="lastname"><h4>Nazwisko:</h4></label>
+                    <div class="col-sm-4">
+                        <input type="name" class="form-control" id="lastname" name="data[lastname]" placeholder="Wpisz nazwisko studenta" required>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label class="margin control-label col-sm-1" style="text-align: left;" for="faculty"><h4>Legitymacja:</h4></label>
+                    <div class="col-sm-4">
+                        <input type="name" class="form-control" id="faculty" name="data[faculty]" placeholder="Wpisz kierunek studenta" required>
+                    </div>
+                </div>
+                <br>
+				<button class="btn btn-primary" type="submit">Dodaj studenta</button>
+        </form>
+        <div id="result"></div>
+    </div>
+{% endblock %}

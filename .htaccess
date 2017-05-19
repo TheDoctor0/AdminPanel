@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+Options -MultiViews 
+RewriteEngine on 
+RewriteCond %{REQUEST_URI} !(.*)web/index.php
+RewriteCond %{REQUEST_URI} !(\.js|\.gif|\.jpg|\.png|\.css|\.xlsx|\.pdf|\.ttf|\.woff|\.woff2|\.ico)$ [NC]
+RewriteRule ^(.*)$ web/index.php/$1 [L]
+</IfModule>

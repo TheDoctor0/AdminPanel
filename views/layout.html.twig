@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta charset="utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Panel CS-Reload.pl</title>
+	<link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+	<link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/jquery-ui.min.js') }}" async></script>
+	<script src="{{ asset('js/bootstrap.min.js') }}" async></script>
+    <script src="{{ asset('js/layout.js') }}" async></script>
+	<link rel="stylesheet" href="{{ asset('css/bootstrap.dark.min.css') }}" async>
+	<link rel="stylesheet" href="{{ asset('css/style.css') }}" async>
+	{% block js %}
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand"><img class="logo" src="{{ asset('img/logo.png') }}" /></a>
+            </div>
+            <ul class="nav navbar-nav" style="margin-left: 5%;">
+                <li class="active"><a href="javascript:void(0)" class="index" onclick='loadpage("{{ path('index') }}");'><span class="glyphicon glyphicon-home"></span> Strona Główna</a></li>
+				<li><a href="http://cs-reload.pl/"><span class="glyphicon glyphicon-globe"></span> Forum</a></li>
+                {% if app.session.get('admin') %}
+                    <li><a href="javascript:void(0)" class="login" onclick='loadpage("{{ path('admin') }}");'><span class="glyphicon glyphicon-user"></span> Panel Administracyjny</a></li>
+					<li><a href="javascript:void(0)" class="register" style="display: none;" onclick='loadpage("{{ path('register') }}");'><span class="glyphicon glyphicon-plus-sign"></span> Rejestracja</a></li>
+					<li><a href="javascript:void(0)" onclick='loadpage("{{ path('responsibilities') }}");'><span class="glyphicon glyphicon-list"></span> Obowiązki</a></li>
+					<li><a href="javascript:void(0)" class="admins"  onclick='loadpage("{{ path('admins') }}");'><span class="glyphicon glyphicon-eye-open"></span> Admini Serwerów</a></li>
+                {% elseif app.session.get('user') %}
+                    <li><a href="javascript:void(0)" class="login" onclick='loadpage("{{ path('user') }}");'><span class="glyphicon glyphicon-user"></span> Profil Użytkownika</a></li>
+					<li><a href="javascript:void(0)" class="register" style="display: none;" onclick='loadpage("{{ path('register') }}");'><span class="glyphicon glyphicon-plus-sign"></span> Rejestracja</a></li>
+					<li><a href="javascript:void(0)" onclick='loadpage("{{ path('responsibilities') }}");'><span class="glyphicon glyphicon-list"></span> Obowiązki</a></li>
+					<li><a href="javascript:void(0)" class="admins"  onclick='loadpage("{{ path('adminsall') }}");'><span class="glyphicon glyphicon-eye-open"></span> Admini Serwerów</a></li>
+                {% else %}
+                    <li><a href="javascript:void(0)" class="login" onclick='loadpage("{{ path('login') }}");'><span class="glyphicon glyphicon-user"></span> Logowanie</a></li>
+					<li><a href="javascript:void(0)" class="register" onclick='loadpage("{{ path('register') }}");'><span class="glyphicon glyphicon-plus-sign"></span> Rejestracja</a></li>
+					<li><a href="javascript:void(0)" onclick='loadpage("{{ path('responsibilities') }}");'><span class="glyphicon glyphicon-list"></span> Obowiązki</a></li>
+					<li><a href="javascript:void(0)" class="admins"  onclick='loadpage("{{ path('adminsall') }}");'><span class="glyphicon glyphicon-eye-open"></span> Admini Serwerów</a></li>
+                {% endif %}
+				</li>
+				{% block menu %}
+				{% endblock %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+    {% block body %}
+    {% endblock %}
+    </div>
+	<div class="loader"></div>
+</body>
+</html>

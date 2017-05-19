@@ -1,0 +1,9 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+{% endblock %}
+
+{% block body %}
+    <br>
+    <div class="alert alert-danger"><h2 style="text-align: center;"><strong>Błąd:</strong> Taka strona nie istnieje!</h2></div>
+{% endblock %}

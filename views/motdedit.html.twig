@@ -1,0 +1,26 @@
+{% extends app.request.isXmlHttpRequest ? "layout_ajax.html.twig" : "layout.html.twig" %}
+
+{% block js %}
+<script src="{{ asset('js/add.js') }}" async></script>
+{% endblock %}
+
+{% block body %}
+	<div class="page-header">
+		<h1>MOTD</h1>
+	</div>
+    <div class="jumbotron form-horizontal">
+		<form id="form" role="form" class="form-horizontal" action="{{ path('motdsave') }}" method="post">
+			<div class="form-group">
+				<label class="margin control-label col-sm-2" style="text-align: left;" for="responsibilities"><h4><b>Treść MOTD:</b></h4></label>
+				<div class="col-sm-9">
+					<textarea rows="10" class="form-control editable" name="motd" data-default="{{ motd.motd }}" required>{{ motd.motd }}</textarea>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-success btn-block" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Zapisz MOTD</button>
+		</form>
+		<button class="btn btn-primary btn-block" onclick='loadpage("{{ path('admin') }}", "{{ path('login') }}");'><span class="glyphicon glyphicon-arrow-left"></span> Wróć do Panelu Administracyjnego</button>
+		<br>
+		<div id="result"></div>
+    </div></div>
+{% endblock %}
