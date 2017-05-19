@@ -1,0 +1,10 @@
+<html>
+<head>
+<title>MOTD</title>
+<meta http-equiv="Content-Language" content="pl"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="REFRESH" CONTENT="0; URL=http://panelurl.com/motd"> 
+<head>
+<body>
+<body>
+</html>
